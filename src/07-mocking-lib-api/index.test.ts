@@ -13,7 +13,14 @@ jest.mock('axios', () => {
 
 const basePost = '/users/1';
 const base = 'https://jsonplaceholder.typicode.com';
-const isData = { id: 1, title: 'User 1' };
+const isData = {
+  id: 1,
+  name: 'Leanne Graham',
+  username: 'Bret',
+  email: 'Sincere@april.biz',
+  phone: '1-770-736-8031 x56442',
+  website: 'hildegard.org',
+};
 
 describe('throttledGetDataFromApi', () => {
   beforeAll(() => {
@@ -40,12 +47,11 @@ describe('throttledGetDataFromApi', () => {
   });
 
   test('should return response data', async () => {
-    const testData = [isData];
     const axiosCreate = axios.create();
-    jest.spyOn(axiosCreate, 'get').mockResolvedValue({ data: testData });
+    jest.spyOn(axiosCreate, 'get').mockResolvedValue({ data: [isData] });
     jest.spyOn(axios, 'create').mockReturnValue(axiosCreate);
     const resultData = await throttledGetDataFromApi(basePost);
     expect(resultData).toBeTruthy();
-    expect(resultData).toEqual(testData);
+    expect(resultData).toEqual([isData]);
   });
 });
